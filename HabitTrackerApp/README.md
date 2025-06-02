@@ -12,17 +12,23 @@ If necessary, a guide to install Pip can be found [here](https://pip.pypa.io/en/
 
 - First, install the latest version of the Questionary library (any version not older than 2.1.0 should work). This can be done by opening your terminal/command line and typing in the following:
 
-```pip install questionary```
+```py
+pip install questionary
+```
 
 - Afterwards, make sure to install the latest version of Pytest as well (any version not older than 8.3.5 should work). This can be done in a similar manner to installing Questionary by opening up your terminal/command line and typing in:
 
-```pip install -U pytest```
+```py
+pip install -U pytest
+```
 
 **NOTE:** Although installing Questionary isn't strictly necessary due to it being included with the application, installing the library yourself prevents any issues from possibly occurring. As such, it is highly recommended to install Questionary yourself via these instructions.
 
 - Once you have installed these dependencies, type in the following to verify your installation within your terminal/command line:
 
-```pip list```
+```py
+pip list
+```
 
 - You should see *Questionary* and *Pytest* amongst your list. If you do, congratulations! You have installed everything correctly.
 
@@ -35,11 +41,13 @@ Once this has all be done, you are ready to run the program!
 1. Open your terminal/command line
 2. Navigate to the file path that you have stored the application directory at. An example of a file path could be something like:
 
-```C:\Users\JohnDoe\HabitTrackerApp\```
+`C:\Users\JohnDoe\HabitTrackerApp\`
 
 3. Type in the following:
 
-```python main.py```
+```py
+python main.py
+```
 
 4. Assuming your path looks something like `C:\Users\JohnDoe\HabitTrackingApp> python main.py`, press Enter.
 
@@ -52,7 +60,7 @@ Within the program, there is a **Help** section entirely dedicated to explaining
 ## How to Test the Application
 
 To run a simple test on the application via Pytest, follow the run instructions up until step 3.
-- Instead of entering ```python main.py```, enter ```pytest . -s```. Press enter.
+- Instead of entering ```pypython main.py```, enter ```pytest . -s```. Press Enter.
 - You will be prompted with a few inputs as the test goes on, namely:
     - The test to replace habit data with custom values
     - A test to check-off a test habit specifically created for this test
