@@ -262,7 +262,15 @@ def cli():
                     # "get_history_of_checkoffs_time_range" method originates. The function
                     # searches for the habit that the user inputted, then prompts the user with
                     # a start and end date. All checkoffs between those dates are then found and printed.
-                    habit_name = questionary.text("Please enter the name of the habit you would like to use: ").ask()
+                    while True:
+                        habit_name = questionary.text("Please enter the name of the habit you would like to use: ").ask()
+                        
+                        # Makes sure that an empty habit name and whitespace "names" are not accepted.
+                        if (habit_name == True) and (habit_name.strip() == True):
+                            break
+                        
+                        else:
+                            print("This field cannot be left empty. Please enter the name of a habit.")
                     
                     print("\n")
                     range_of_habit_checkoffs = Analytics(habit_name = habit_name)
