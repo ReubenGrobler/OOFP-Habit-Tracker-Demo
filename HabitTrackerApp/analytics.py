@@ -291,7 +291,7 @@ class Analytics(Habits):
         # is then exited. If the dates are not valid, a ValueError is raised and the user is informed
         # that they have entered an incorrect date format. The loop continues until valid dates are entered.
 
-        while True:
+           while True:
             start_date = input("Enter start date (YYYY-MM-DD): ")
             
             try:
@@ -299,6 +299,12 @@ class Analytics(Habits):
                 
                 end_date = input("Enter end date (YYYY-MM-DD): ")
                 end_date = datetime.strptime(end_date, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+                
+                # Checks if the start date is later than the end date and prints an error message accordingly.
+                if start_date > end_date:
+                    print("The start date cannot be later than the end date. Please enter an earlier start date.")
+                    continue
+                
                 break
             
             except ValueError:
