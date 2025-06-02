@@ -1,0 +1,5 @@
+Packages and tools needed for operations:
+================
+NOTE: Questionary 2.1.0 is already included with this project. However, it is recommended to install Questionary globally as a fail-safe.
+- Questionary (2.1.0 or higher)
+- Pytest (8.3.5 or higher)
