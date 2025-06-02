@@ -227,7 +227,7 @@ def cli():
                     print("\n")
                     most_checkoffs = Analytics()
                     most_checkoffs.get_most_checkoff_history()
-                    print("\nHabit shown!\n")
+                    print("\nHabit(s) shown!\n")
                     
                     
                 elif analytics_choice == "Show the habit with the least check-offs":
@@ -238,7 +238,7 @@ def cli():
                     print("\n")
                     least_checkoffs = Analytics()
                     least_checkoffs.get_least_checkoff_history()
-                    print("\n")
+                    print("\nHabit(s) shown!")
                     
                     
                 elif analytics_choice == "Show the habits with the same periodicity":
