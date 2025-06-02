@@ -288,7 +288,8 @@ def cli():
                     all_archived_habits = Analytics()
                     all_archived_habits.get_archived_habits()
                     print("\n")
-                    
+
+                
                 elif analytics_choice == "Exit habit selection":
                     print("Exiting the analytics selection...")
                     analytics_exit = True
