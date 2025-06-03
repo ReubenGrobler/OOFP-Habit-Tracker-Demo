@@ -1,4 +1,4 @@
-# Habit Tracker v 1.0.0
+# Habit Tracker v 1.1.0
 ## Developed by Reuben Grobler
 
 Ever needed a lightweight, yet easy to use habit tracking application? This application allows you to dynamically track your habits via an intuitive check-off system, all via the use of a command-line input!
