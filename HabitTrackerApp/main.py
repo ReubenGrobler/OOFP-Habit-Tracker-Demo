@@ -216,7 +216,7 @@ def cli():
                     print("\nHere is all the longest streaks for all your habits:\n")
                     longest_streak_all_habits = Analytics()
                     longest_streak_all_habits.get_longest_streak_all_habits()
-                    print("\nAll habit streaks shown!\n")
+                    print("\nLongest habit streak shown!\n")
                     
                     
                 elif analytics_choice == "Show the habit with the most check-offs":
@@ -354,8 +354,8 @@ def cli():
                             questionary.press_any_key_to_continue("Archived habits will not work and instead show a message that they must be unarchived first.").ask()
                         
                         elif analytics_help_selection == "Show the longest streak across all habits":
-                            questionary.press_any_key_to_continue("The option 'Show the longest streak across all habits' displays the longest streak for each of your habits, thereby saving time from individually looking at the streaks for all habits.").ask()
-                            questionary.press_any_key_to_continue("Archived habits will display a line stating that they are archived within the list. This is because they are still recognised by the habit tracking app, but not as a readable habit.").ask()
+                            questionary.press_any_key_to_continue("The option 'Show the longest streak across all habits' displays the longest streak amongst all your habits, thereby saving time from individually looking at the streaks for all habits.").ask()
+                            questionary.press_any_key_to_continue("In contrast to checking the longest streak for a single habit, the numerical value to indicate the length of the streak is only described as an \"entry.\" This entry is considered to be either days or weeks, depending on the original periodicity of the habit.").ask()
                         
                         elif analytics_help_selection == "Show the habit with the most check-offs":
                             questionary.press_any_key_to_continue("The option 'Show the habit with the most check-offs' identifies the habit you have checked off the most amount of times.").ask()
