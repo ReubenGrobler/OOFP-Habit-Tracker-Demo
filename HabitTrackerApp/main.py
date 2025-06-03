@@ -216,7 +216,7 @@ def cli():
                     print("\nHere is all the longest streaks for all your habits:\n")
                     longest_streak_all_habits = Analytics()
                     longest_streak_all_habits.get_longest_streak_all_habits()
-                    print("\nLongest habit streak shown!\n")
+                    print("\n")
                     
                     
                 elif analytics_choice == "Show the habit with the most check-offs":
@@ -355,7 +355,7 @@ def cli():
                         
                         elif analytics_help_selection == "Show the longest streak across all habits":
                             questionary.press_any_key_to_continue("The option 'Show the longest streak across all habits' displays the longest streak amongst all your habits, thereby saving time from individually looking at the streaks for all habits.").ask()
-                            questionary.press_any_key_to_continue("In contrast to checking the longest streak for a single habit, the numerical value to indicate the length of the streak is only described as an \"entry.\" This entry is considered to be either days or weeks, depending on the original periodicity of the habit.").ask()
+                            questionary.press_any_key_to_continue("It should be noted that archived habits will naturally be skipped when determining the longest streak.").ask()
                         
                         elif analytics_help_selection == "Show the habit with the most check-offs":
                             questionary.press_any_key_to_continue("The option 'Show the habit with the most check-offs' identifies the habit you have checked off the most amount of times.").ask()
