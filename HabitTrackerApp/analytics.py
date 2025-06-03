@@ -92,13 +92,12 @@ class Analytics(Habits):
             # be greater than the longest streak.  
             longest_streak = max(longest_streak, streak_counter)
         
-        # The longest streak is outputted to the user, with the value being divided by 7 if the periodicity is weekly.
+        # The longest streak is outputted to the user, with the output specifying the habit's periodicity.
         if checkoff_periodicity == "daily":
             print("The longest streak for the habit \"" + self.habit_name + "\" is " + str(longest_streak) + " days.")
             return longest_streak
             
         elif checkoff_periodicity == "weekly":
-            longest_streak = int(longest_streak / 7)
             print("The longest streak for the habit \"" + self.habit_name + "\" is " + str(longest_streak) + " weeks.")
             return longest_streak
         
@@ -112,7 +111,10 @@ class Analytics(Habits):
         stored in the "Habits" folder. The method loops through each JSON file in the
         folder, loading the habit data and calling the longest_streak_single_habit()
         method for each habit. At the end, the called method outputs the longest streak
-        for each individual habit.
+        out of all habits checked.
+        
+        Returns:
+            longest_streak_all_habits(int) = The longest streak found amongst all currently stored habits.
         """
         
         # Checks whether the "Habits" directory exists and exits the method if it doesn't.
@@ -120,18 +122,67 @@ class Analytics(Habits):
             print("No \"Habits\" folder found. Please create a habit first or check the file path.")
             return None
         
-        # Loops through each JSON file in the "Habits" folder, then sets
-        # the name of the habit and the habit data before calling the
-        # longest_streak_single_habit() method. Therefore, with each call
-        # of the method, each individual habit's data is loaded and used.
+        # Counters to keep track of the longest streak and the name of the
+        # habit with the longest streak.
+        longest_streak_all_habits = 0
+        habit_with_longest_streak = ""
+
+        # A loop runs to load through all JSON files within the "Habits" directory,
+        # then stores a list of all checkoff history and a habit's periodicity.
         for file_in_folder in os.listdir("Habits"):
             if file_in_folder.endswith(".json"):
                 path_of_file = os.path.join("Habits", file_in_folder)
                 with open(path_of_file, mode="r", encoding="utf-8") as read_file:
                     loaded_habit = json.load(read_file)
-                    self.habit_name = loaded_habit.get("name", "")
-                    self.habit_data = loaded_habit
-                    self.get_longest_streak_single_habit()
+                    unconverted_checkoffs = loaded_habit.get("check_off_history", [])
+                    checkoff_periodicity = loaded_habit.get("periodicity", "")
+
+                    # A loop runs to convert each entry in the check-off history from a string to a datetime object,
+                    # then appends these new values into a new list.
+                    converted_checkoffs = []
+                    for unconverted_datetime in unconverted_checkoffs:
+                        converted_datetime = datetime.fromisoformat(unconverted_datetime.replace("Z", "+00:00"))
+                        converted_checkoffs.append(converted_datetime)
+
+                    # More counters are defined to keep track of an individual habit's current streak as
+                    # # the loop is being read, as well as the overall maximum streak of a given habit.
+                    streak_counter = 1
+                    single_habit_max_streak = 1
+
+                    # A loop runs for each entry in the converted check-off history. The difference in days
+                    # between each consecutive check-off is calculated and stored a variable.
+                    for i in range(1, len(converted_checkoffs)):
+                        difference_in_days = (converted_checkoffs[i].date() - converted_checkoffs[i - 1].date()).days
+                        
+                        # If the difference between check-offs is 1 day (for daily habits) or 7 days (for weekly habits),
+                        # the streak counter is incremented. Otherwise, the streak counter is reset to 1.
+                        if (checkoff_periodicity == "daily") and (difference_in_days == 1):
+                            streak_counter += 1
+                        elif (checkoff_periodicity == "weekly") and (difference_in_days <= 7):
+                            streak_counter += 1
+                        else:
+                            streak_counter = 1
+                            
+                        # The longest streak of a single habit is compared to the current longest streak.
+                        # The biggest value is then selected and stored as the new longest streak.
+                        single_habit_max_streak = max(single_habit_max_streak, streak_counter)
+
+                    # The longest streak of a single habit is compared to the longest streak amongst all habits.
+                    # If the former is greater, the value is assigned to the latter and the name of that habit is stored.
+                    if single_habit_max_streak > longest_streak_all_habits:
+                        longest_streak_all_habits = single_habit_max_streak
+                        habit_with_longest_streak = loaded_habit.get("name", "")
+
+        # The longest streak amongst all habits is outputted alongside the name of the habit. In the event that
+        # there are no streaks found, the user is notified.
+        if longest_streak_all_habits > 1:
+            print("The longest streak across all habits is made by \"" + habit_with_longest_streak + "\" at " + str(longest_streak_all_habits) + " entries.")
+            return longest_streak_all_habits
+ 
+        else:
+            print("No streaks were found across any habits. Either no streak has been made yet or no check-off history was found.")
+        
+        return None
 
 
     def get_most_checkoff_history(self):
