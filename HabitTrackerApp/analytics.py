@@ -176,7 +176,16 @@ class Analytics(Habits):
         # The longest streak amongst all habits is outputted alongside the name of the habit. In the event that
         # there are no streaks found, the user is notified.
         if longest_streak_all_habits > 1:
-            print("The longest streak across all habits is made by \"" + habit_with_longest_streak + "\" at " + str(longest_streak_all_habits) + " entries.")
+            
+            if habit_periodicity == "daily":
+                print("The longest streak across all habits is made by \"" + habit_with_longest_streak + "\" with " + str(longest_streak_all_habits) + " days.")
+                
+            elif habit_periodicity == "weekly":
+                print("The longest streak across all habits is made by \"" + habit_with_longest_streak + "\" with " + str(longest_streak_all_habits) + " weeks.")
+                
+            else:
+                print("There is an error regarding the periodicities. Please check that the habit has a periodicity within the habit file.")
+            
             return longest_streak_all_habits
  
         else:
