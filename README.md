@@ -1,4 +1,4 @@
-# Habit Tracker v 1.1.0
+# Habit Tracker v 1.1.1
 ## Developed by Reuben Grobler
 
 Ever needed a lightweight, yet easy to use habit tracking application? This application allows you to dynamically track your habits via an intuitive check-off system, all via the use of a command-line input!
@@ -60,10 +60,26 @@ Within the program, there is a **Help** section entirely dedicated to explaining
 ## How to Test the Application
 
 To run a simple test on the application via Pytest, follow the run instructions up until step 3.
-- Instead of entering ```pypython main.py```, enter ```pytest . -s```. Press Enter.
+- Instead of entering ```python main.py```, enter ```pytest . -s```. Press Enter.
 - You will be prompted with a few inputs as the test goes on, namely:
     - The test to replace habit data with custom values
     - A test to check-off a test habit specifically created for this test
     - An input asking for start and end dates to search for all check-offs for a habit between those two dates
 - You are free to insert whatever values you wish during these tests.
 - Upon completion, you will be notified of the test passing and are free to run the application if you so desire. 
+
+## Test Cases
+
+Regarding testing, five predefined habits are created. The names of these habits will be necessary to explore the application. They are the following:
+- Clean the house
+- Do the laundry
+- Go to the gym
+- Message a friend
+- Writing in a journal
+
+To view the full data of these habits, view the following files upon program startup:
+- clean_the_house.json
+- do_the_laundry.json
+- go_to_the_gym.json
+- message_a_friend.json
+- writing_in_a_journal.json
