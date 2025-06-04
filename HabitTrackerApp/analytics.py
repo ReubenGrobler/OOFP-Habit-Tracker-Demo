@@ -176,6 +176,7 @@ class Analytics(Habits):
                     if single_habit_max_streak > longest_streak_all_habits:
                         longest_streak_all_habits = single_habit_max_streak
                         habit_with_longest_streak = loaded_habit.get("name", "")
+                        habit_periodicity = loaded_habit.get("periodicity" "")
 
         # The longest streak amongst all habits is outputted alongside the name of the habit. In the event that
         # there are no streaks found, the user is notified.
@@ -312,7 +313,7 @@ class Analytics(Habits):
             return None
         
         # Used to store all habits with the same periodicity as the one specified by the user.
-        all_periodicities = []
+        all_habits = []
         
         # Loops through each JSON file in the "Habits" folder, then checks whether the file ends with ".json".
         # If it does, the file is opened and the periodicity of the habit is checked.
@@ -325,12 +326,13 @@ class Analytics(Habits):
                     periodicity = loaded_habit.get("periodicity", "")
                     
                     if wanted_periodicity == periodicity:
-                        all_periodicities.append(loaded_habit.get("name", "")) 
+                        all_habits.append(loaded_habit.get("name", "")) 
 
-        if all_periodicities:
+        if all_habits:
             print("The following habits have the periodicity of \"" + wanted_periodicity + "\":")
-            for habit in all_periodicities:
+            for habit in all_habits:
                 print("- " + habit)
+                return habit
                 
         else:
             print("No habits were found with that periodicity. Please create a new habit with that periodicity.")
