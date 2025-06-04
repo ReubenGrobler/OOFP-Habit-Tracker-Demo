@@ -27,10 +27,29 @@ def cli():
             # the name, description, and periodicity (daily or weekly) of the habit.
             # Other essential data, such as archived status and date and time of creation are
             # set automatically.
-            habit_name = questionary.text("Enter the name of the habit: ").ask()
-            habit_description = questionary.text("Enter a description for the habit: ").ask()
+            while True:
+                habit_name = questionary.text("Enter the name of the habit. To exit here, type \"Exit\" (with double quotation marks).").ask()
+                
+                # Makes sure that an empty habit name and whitespace "names" are not accepted.
+                if (habit_name) and (habit_name.strip()):
+                    break
+                            
+                else:
+                    print("This field cannot be left empty. Please enter the name of a habit.")
+                             
+            # Exits the current choice if the user types "Exit" with double quotation marks.
+            if habit_name == "\"Exit\"":
+                continue
+            
+            habit_description = questionary.text("Enter a description for the habit. To exit here, type \"Exit\" (with double quotation marks).").ask()
+            if habit_description == "\"Exit\"":
+                continue
+            
             habit_periodicity = (questionary.select("How often do you want to perform this habit?",
-                                                choices=["Daily", "Weekly"]).ask()).lower()
+                                                choices=["Daily", "Weekly", "Exit selection"]).ask()).lower()
+            if habit_name == "Exit selection":
+                continue
+            
             habit_archived = False
             habit_checked_off_today = False
             
@@ -67,7 +86,11 @@ def cli():
         elif choice == "Check-off a habit":
             
             # Retrieves the name of the habit that the user wants to check-off.
-            habit_name = questionary.text("Please enter the name of the habit you want to check-off: ").ask()
+            habit_name = questionary.text("Please enter the name of the habit you want to check-off. To exit here, type \"Exit\" (with double quotation marks).").ask()
+            
+            # Exits the current choice if the user types "Exit" with double quotation marks.
+            if habit_name == "\"Exit\"":
+                continue
             
             # Creates an instance of the Habits class with the habit name, then calls the checkoff_habit method
             # to check-off the habit. If the habit is checked off successfully, a success message is printed.
@@ -80,7 +103,11 @@ def cli():
         elif choice == "View a habit":
             
             # Retrieves the name of the habit that the user wants to view.
-            habit_name = questionary.text("Please enter the name of the habit you want to view: ").ask()
+            habit_name = questionary.text("Please enter the name of the habit you want to view. To exit here, type \"Exit\" (with double quotation marks).").ask()
+            
+            # Exits the current choice if the user types "Exit" with double quotation marks.
+            if habit_name == "\"Exit\"":
+                continue
             
             # Creates an instance of the Habits class with the habit name, then calls the load_habit_file method
             # to load the habit data. If the habit data is found, it is printed in a formatted JSON style.
@@ -96,7 +123,11 @@ def cli():
         elif choice == "Edit a habit":
             
             # Retrieves the name of the habit that the user wants to edit.
-            habit_name = questionary.text("Enter the name of the habit you wish to change: ").ask()
+            habit_name = questionary.text("Enter the name of the habit you wish to change. To exit here, type \"Exit\" (with double quotation marks).").ask()
+            
+            # Exits the current choice if the user types "Exit" with double quotation marks.
+            if habit_name == "\"Exit\"":
+                continue
             
             # Creates an instance of the Habits class with the habit name, then calls the edit_habit_file method
             # to edit the habit data by prompting input fields within the function and not via Questionary.
@@ -109,7 +140,11 @@ def cli():
         elif choice == "Delete a habit":
             
             # Retrieves the name of the habit that the user wants to delete.
-            habit_name = questionary.text("Please enter the name of the habit you want to delete: ").ask()
+            habit_name = questionary.text("Please enter the name of the habit you want to delete. To exit here, type \"Exit\" (with double quotation marks).").ask()
+            
+            # Exits the current choice if the user types "Exit" with double quotation marks.
+            if habit_name == "\"Exit\"":
+                continue
             
             # Prompts the user for confirmation before deleting the habit.
             # If the user confirms, the habit is deleted; otherwise, the deletion is cancelled.
@@ -126,7 +161,7 @@ def cli():
             print("\n")
         
         
-                elif choice == "Archive/Unarchive a habit":
+        elif choice == "Archive/Unarchive a habit":
             
             exit_archive_selection = False
             
@@ -143,7 +178,11 @@ def cli():
                 # Depending on the user's choice, the user is prompted to enter the name of the habit they wish to
                 # either archive or unarchive.
                 if archive_choice == "Archive a habit":
-                    habit_name = questionary.text("Please enter the name of the habit you want to archive: ").ask()
+                    habit_name = questionary.text("Please enter the name of the habit you want to archive. To exit here, type \"Exit\" (with double quotation marks).").ask()
+                    
+                    # Exits the current choice if the user types "Exit" with double quotation marks.
+                    if habit_name == "\"Exit\"":
+                        continue
                     
                     # The user is prompted for confirmation before archiving the habit. If the user does not confirm,
                     # the archiving is cancelled and a message is printed.
@@ -160,7 +199,11 @@ def cli():
                     print("\n")
                 
                 elif archive_choice == "Unarchive a habit":
-                    habit_name = questionary.text("Please enter the name of the habit you want to unarchive: ").ask()
+                    habit_name = questionary.text("Please enter the name of the habit you want to unarchive. To exit here, type \"Exit\" (with double quotation marks).").ask()
+                    
+                    # Exits the current choice if the user types "Exit" with double quotation marks.
+                    if habit_name == "\"Exit\"":
+                        continue
                     
                     confirmation = questionary.confirm("Are you sure you want to unarchive the habit \"" + habit_name + "\"?").ask()
                     if not confirmation:
@@ -206,7 +249,11 @@ def cli():
                 elif analytics_choice == "Show the longest streak for a single habit":
                     
                     # The user is prompted to enter the name of the habit that they wish to view the longest streak of.
-                    habit_name = questionary.text("Please enter the name of the habit you want to view the longest streak of: ").ask()
+                    habit_name = questionary.text("Please enter the name of the habit you want to view the longest streak of. To exit here, type \"Exit\" (with double quotation marks).").ask()
+                    
+                    # Exits the current choice if the user types "Exit" with double quotation marks.
+                    if habit_name == "\"Exit\"":
+                        continue
                     
                     # An instace of the Analytics class is created with the "get_longest_streak_single_habit"
                     # method being called. The method searches the check-off history for the habit and
@@ -225,7 +272,6 @@ def cli():
                     print("\nHere is all the longest streaks for all your habits:\n")
                     longest_streak_all_habits = Analytics()
                     longest_streak_all_habits.get_longest_streak_all_habits()
-                    print("\n")
                     
                     
                 elif analytics_choice == "Show the habit with the most check-offs":
@@ -247,7 +293,7 @@ def cli():
                     print("\n")
                     least_checkoffs = Analytics()
                     least_checkoffs.get_least_checkoff_history()
-                    print("\nHabit(s) shown!")
+                    print("\nHabit(s) shown!\n")
                     
                     
                 elif analytics_choice == "Show the habits with the same periodicity":
@@ -258,7 +304,11 @@ def cli():
                     # specifies, then outputs them to the user.
                     
                     habit_periodicity = (questionary.select("Which habit periodicity do you wish to search for?",
-                                                           choices=["Daily", "Weekly"]).ask()).lower()
+                                                           choices=["Daily", "Weekly", "Exit selection"]).ask()).lower()
+                    
+                    if habit_periodicity == "Exit selection":
+                        continue
+                    
                     print("\n")
                     same_periodicity = Analytics()
                     same_periodicity.get_habits_with_same_periodicity(wanted_periodicity = habit_periodicity)
@@ -272,15 +322,19 @@ def cli():
                     # searches for the habit that the user inputted, then prompts the user with
                     # a start and end date. All checkoffs between those dates are then found and printed.
                     while True:
-                        habit_name = questionary.text("Please enter the name of the habit you would like to use: ").ask()
+                        habit_name = questionary.text("Please enter the name of the habit you would like to use. To exit here, type \"Exit\" (with double quotation marks).").ask()
                         
                         # Makes sure that an empty habit name and whitespace "names" are not accepted.
-                        if (habit_name == True) and (habit_name.strip() == True):
+                        if (habit_name) and (habit_name.strip()):
                             break
                         
                         else:
                             print("This field cannot be left empty. Please enter the name of a habit.")
                     
+                    # Exits the current choice if the user types "Exit" with double quotation marks.
+                    if habit_name == "\"Exit\"":
+                        continue
+                        
                     print("\n")
                     range_of_habit_checkoffs = Analytics(habit_name = habit_name)
                     range_of_habit_checkoffs.get_history_of_checkoffs_time_range()
@@ -297,8 +351,8 @@ def cli():
                     all_archived_habits = Analytics()
                     all_archived_habits.get_archived_habits()
                     print("\n")
-
-                
+                    
+                    
                 elif analytics_choice == "Exit habit selection":
                     print("Exiting the analytics selection...")
                     analytics_exit = True
