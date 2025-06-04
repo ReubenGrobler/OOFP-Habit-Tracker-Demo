@@ -60,7 +60,7 @@ class Analytics(Habits):
 
         # If no habit data was returned from the load_habit_file method, then end the method.
         # Due to the method already including a message for archived habits, no message is outputted here.
-        if self.habit_data == None:
+        if (self.habit_data == False):
             return None
         
         # The check-off history and the periodicity of the habit are stored.
@@ -351,6 +351,10 @@ class Analytics(Habits):
         
         # Loads the habit data from the JSON file. This method is inherited from the Habits class.
         self.habit_data = self.load_habit_file()
+
+        # In the event that the habit cannot be found, the method terminates.
+        if (self.habit_data == False):
+            return None
         
         # A loop is made that prompts the user for a start and end date, then checks if they are valid. If they are,
         # the dates are then converted to datetime objects with the UTC timezone and formatted. The loop
