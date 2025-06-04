@@ -89,7 +89,7 @@ class Habits:
         # If no matching habit is found, print an error message and exits the method.
         print("The habit \"" + self.habit_name + "\" was not found. Try searching for another habit or check possible typos.")
             
-        return None
+        return False
 
 
     def edit_habit_file(self):
