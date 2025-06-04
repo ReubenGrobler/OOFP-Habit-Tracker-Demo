@@ -111,8 +111,7 @@ class Habits:
         # Loads the habit file using the "load_habit_file()" method and checks whether the file
         # was found. If not, an error message is printed and the method ends.
         loaded_habit = self.load_habit_file()
-        if loaded_habit is None:
-            print("No habit was found to edit. Please check the habit name for typos or create a new habit.")
+        if (loaded_habit == False):
             return None
         
         else:
@@ -413,8 +412,9 @@ class Habits:
         # was found. If not, an error message is printed from the "load_habit_file()" method
         # and this method ends.
         loaded_habit = self.load_habit_file()
-        if loaded_habit is None:
+        if (loaded_habit == False):
             return None
+            
         else:
             
             # Checks whether the habit is archived. If it is, an error message is printed
@@ -539,8 +539,7 @@ class Habits:
         # Loads the habit file using the "load_habit_file()" method and checks whether the file
         # was found. If not, an error message is printed and the method ends.
         loaded_habit = self.load_habit_file()
-        if loaded_habit is None:
-            print("No habit was found to archive. Please check the habit name for typos or create a new habit.")
+        if (loaded_habit == False):
             return None
         
         # If the habit is already archived, an error message is printed and the method ends.
@@ -576,8 +575,7 @@ class Habits:
         # Loads the habit file using the "load_habit_file()" method and checks whether the file
         # was found. If not, an error message is printed and the method ends.
         loaded_habit = self.load_habit_file()
-        if loaded_habit is None:
-            print("No habit was found to unarchive. Please check the habit name for typos or create a new habit.")
+        if loaded_habit == False:
             return None
         
         # If the habit is not archived, an error message is printed and the method ends.
