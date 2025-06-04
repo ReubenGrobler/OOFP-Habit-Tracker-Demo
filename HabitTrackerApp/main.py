@@ -126,46 +126,57 @@ def cli():
             print("\n")
         
         
-        elif choice == "Archive/Unarchive a habit":
+                elif choice == "Archive/Unarchive a habit":
             
-            # Prompts the user to choose whether they want to archive or unarchive a habit, then
-            # stores the user's choice.
-            archive_choice = questionary.select("Would you like to archive or unarchive a habit?",
-                                    choices=["Archive a habit", "Unarchive a habit"]).ask()
+            exit_archive_selection = False
             
-            # Depending on the user's choice, the user is prompted to enter the name of the habit they wish to
-            # either archive or unarchive.
-            if archive_choice == "Archive a habit":
-                habit_name = questionary.text("Please enter the name of the habit you want to archive: ").ask()
+            # A loop is created so that the selection between "Archive a habit" and "Unarchive a habit"
+            # will exit once the "Exit" option has been selected.
+            while exit_archive_selection == False:
                 
-                # The user is prompted for confirmation before archiving the habit. If the user does not confirm,
-                # the archiving is cancelled and a message is printed.
-                confirmation = questionary.confirm("Are you sure you want to archive the habit \"" + habit_name + "\"?").ask()
-                if not confirmation:
-                    print("\nThe habit was not archived. No changes were made.\n")
-                    return None
+                # Prompts the user to choose whether they want to archive or unarchive a habit, then
+                # stores the user's choice.
+                archive_choice = questionary.select("Would you like to archive or unarchive a habit?",
+                                        choices=["Archive a habit", "Unarchive a habit", "Exit"]).ask()
                 
-                # Creates an instance of the Habits class with the habit name, then calls the archive_habit method
-                # to archive the habit. If the habit is archived successfully, a success message is printed.
-                print("\n")
-                archive_habit = Habits(habit_name = habit_name)
-                archive_habit.archive_habit()
-                print("\n")
-            
-            else:
-                habit_name = questionary.text("Please enter the name of the habit you want to unarchive: ").ask()
                 
-                confirmation = questionary.confirm("Are you sure you want to unarchive the habit \"" + habit_name + "\"?").ask()
-                if not confirmation:
-                    print("\nThe habit was not unarchived. No changes were made.\n")
-                    return None
+                # Depending on the user's choice, the user is prompted to enter the name of the habit they wish to
+                # either archive or unarchive.
+                if archive_choice == "Archive a habit":
+                    habit_name = questionary.text("Please enter the name of the habit you want to archive: ").ask()
+                    
+                    # The user is prompted for confirmation before archiving the habit. If the user does not confirm,
+                    # the archiving is cancelled and a message is printed.
+                    confirmation = questionary.confirm("Are you sure you want to archive the habit \"" + habit_name + "\"?").ask()
+                    if not confirmation:
+                        print("\nThe habit was not archived. No changes were made.\n")
+                        return None
+                    
+                    # Creates an instance of the Habits class with the habit name, then calls the archive_habit method
+                    # to archive the habit. If the habit is archived successfully, a success message is printed.
+                    print("\n")
+                    archive_habit = Habits(habit_name = habit_name)
+                    archive_habit.archive_habit()
+                    print("\n")
+                
+                elif archive_choice == "Unarchive a habit":
+                    habit_name = questionary.text("Please enter the name of the habit you want to unarchive: ").ask()
+                    
+                    confirmation = questionary.confirm("Are you sure you want to unarchive the habit \"" + habit_name + "\"?").ask()
+                    if not confirmation:
+                        print("\nThe habit was not unarchived. No changes were made.\n")
+                        return None
 
-                # Creates an instance of the Habits class with the habit name, then calls the unarchive_habit method
-                # to unarchive the habit. If the habit is unarchived successfully, a success message is printed.
-                print("\n")
-                unarchive_habit = Habits(habit_name=habit_name)
-                unarchive_habit.unarchive_habit()
-                print("\n")
+                    # Creates an instance of the Habits class with the habit name, then calls the unarchive_habit method
+                    # to unarchive the habit. If the habit is unarchived successfully, a success message is printed.
+                    print("\n")
+                    unarchive_habit = Habits(habit_name=habit_name)
+                    unarchive_habit.unarchive_habit()
+                    print("\n")
+                    
+                else:
+                    exit_archive_selection = True
+                    print("\nExiting selection...\n")
         
         
         elif choice == "View analytics":
