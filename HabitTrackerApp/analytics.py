@@ -134,6 +134,10 @@ class Analytics(Habits):
                 path_of_file = os.path.join("Habits", file_in_folder)
                 with open(path_of_file, mode="r", encoding="utf-8") as read_file:
                     loaded_habit = json.load(read_file)
+
+                    if (loaded_habit.get("archived", "") == True):
+                        continue
+                                            
                     unconverted_checkoffs = loaded_habit.get("check_off_history", [])
                     checkoff_periodicity = loaded_habit.get("periodicity", "")
 
@@ -179,14 +183,14 @@ class Analytics(Habits):
             
             if habit_periodicity == "daily":
                 print("The longest streak across all habits is made by \"" + habit_with_longest_streak + "\" with " + str(longest_streak_all_habits) + " days.")
+                return longest_streak_all_habits
                 
             elif habit_periodicity == "weekly":
                 print("The longest streak across all habits is made by \"" + habit_with_longest_streak + "\" with " + str(longest_streak_all_habits) + " weeks.")
+                return longest_streak_all_habits
                 
             else:
                 print("There is an error regarding the periodicities. Please check that the habit has a periodicity within the habit file.")
-            
-            return longest_streak_all_habits
  
         else:
             print("No streaks were found across any habits. Either no streak has been made yet or no check-off history was found.")
