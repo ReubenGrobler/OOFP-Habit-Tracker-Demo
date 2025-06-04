@@ -65,8 +65,6 @@ class Habits:
         if not os.path.exists("Habits"):
             print("No \"Habits\" folder found. Please create a habit first or check the file path.")
             return None
-
-        isArchived = False
         
         # Loops through all the files in the "Habits" directory and checks
         # if a file is a JSON file. If so, it loads the file and checks if the "name" attribute
