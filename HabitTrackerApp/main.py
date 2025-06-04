@@ -221,9 +221,7 @@ def cli():
                     
                     # An instace of the Analytics class is created with the "get_longest_streak_all_habits"
                     # method being called. The method searches the check-off history for all habits and
-                    # outputs the longest consecutive streak for each individual habit.
-                    # Note that archived habits will show an error message in the output due to
-                    # being recognised by the system but won't be loaded.
+                    # outputs the longest consecutive streak amongst all habits.
                     print("\nHere is all the longest streaks for all your habits:\n")
                     longest_streak_all_habits = Analytics()
                     longest_streak_all_habits.get_longest_streak_all_habits()
