@@ -115,7 +115,7 @@ class Habits:
             
             # Checks whether the habit is archived. If it is, an error message is printed
             # and the method ends. This is to prevent editing archived habits.
-            if loaded_habit.get("archived"):
+            if (loaded_habit.get("archived") == True):
                 print("The habit \"" + self.habit_name + "\" is archived and cannot be edited. Please unarchive the habit first.")
                 return None
             
@@ -418,7 +418,7 @@ class Habits:
             
             # Checks whether the habit is archived. If it is, an error message is printed
             # and the method ends. This is to prevent checking archived habits off.
-            if loaded_habit.get("archived", False):
+            if (loaded_habit.get("archived") == True):
                 print("The habit \"" + self.habit_name + "\" is archived and cannot be checked-off. Please unarchive the habit first.")
                 return None
             
