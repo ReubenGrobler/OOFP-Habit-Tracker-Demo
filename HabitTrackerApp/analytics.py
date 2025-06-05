@@ -236,7 +236,7 @@ class Analytics(Habits):
                 with open(path_of_file, mode="r", encoding="utf-8") as read_file:
                     loaded_habit = json.load(read_file)
 
-                    if loaded_habit.get("archived"):
+                    if (loaded_habit.get("archived") == True):
                         continue
 
                     # The number of check-offs for the current habit is compared to the current
@@ -292,7 +292,7 @@ class Analytics(Habits):
                 with open(path_of_file, mode="r", encoding="utf-8") as read_file:
                     loaded_habit = json.load(read_file)
 
-                    if loaded_habit.get("archived"):
+                    if (loaded_habit.get("archived") == True):
                         continue
 
                     # The number of check-offs for the current habit is compared to the current
@@ -459,7 +459,7 @@ class Analytics(Habits):
                 with open(path_of_file, mode="r", encoding="utf-8") as read_file:
                     loaded_habit = json.load(read_file)
                     if loaded_habit.get("archived") == True:
-                        archived_habits.append(loaded_habit.get("name", ""))
+                        archived_habits.append(loaded_habit.get("name"))
         
         # A loop runs to print all archived habits from the saved list.
         # If no archived habits are found, the user is informed.
