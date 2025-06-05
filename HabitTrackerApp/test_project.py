@@ -7,13 +7,13 @@ class TestProject:
     
     def setup_method(self):
         """This method runs before any testing is performed. Here, methods create predefined test
-        data and set their checkoffs to false if the user has not checked-off a habit today, similarly
-        to how the habit tracking app operates at startup.
+        data and set their checkoffs to false if the user has not checked-off a habit
+        within its periodicity, similarly to how the habit tracking app operates at startup.
         """
         
         # Before testing, all predefined habits will be created (if the files don't already exist)
-        # and any daily checkoffs that were made will be set to false (in the event that they weren't
-        # checked-off today).
+        # and any periodical checkoffs that were made will be set to false (in the event that they weren't
+        # checked-off according to their periodicity).
         bootup_tests = Habits()
         bootup_tests.create_predefined_habits()
         bootup_tests.setcheckoff_to_false()
