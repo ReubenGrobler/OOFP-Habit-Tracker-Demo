@@ -67,7 +67,7 @@ class TestProject:
         # The test ends if no output has been returned by the method, indicating that
         # the file has not been loaded. 
         loaded_output = test_habit.load_habit_file()
-        assert (loaded_output != None)
+        assert ((loaded_output != None) and (loaded_output != False))
         
         test_habit.edit_habit_file()
         
