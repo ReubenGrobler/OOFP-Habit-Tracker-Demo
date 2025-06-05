@@ -53,8 +53,8 @@ class Habits:
         is found, the path of the file is saved to access the file.
         The JSON attribute "name" is used to verify whether the user-inputted
         "habit_name" from the class constructor matches the name of the
-        habit in the JSON file. If so, the contents of the JSON file is displayed.
-        It should be noted that "habit_name" is used to sarch for in all JSON files. The
+        habit in the JSON file. If so, the contents of the JSON file are displayed.
+        It should be noted that "habit_name" is used to search for in all JSON files. The
         attribute is also sanitised to match the format of the JSON file.
         
         Returns:
@@ -79,13 +79,10 @@ class Habits:
                     if loaded_habit.get("name", "").lower().replace("_", " ") == self.habit_name.lower().replace("_", " "):
                         return loaded_habit
 
-            # If the file is not a JSON file, print an error message and exit the method.
+            # If the file is not a JSON file, the file is skipped from the loop
             else:
-                print("The file \"" + file_in_folder + "\" is not a JSON file. Please check the file format in the \"Habits\" directory.")
-                return None
+                continue
         
-        
-
         # If no matching habit is found, print an error message and exits the method.
         print("The habit \"" + self.habit_name + "\" was not found. Try searching for another habit or check possible typos.")
             
@@ -118,7 +115,7 @@ class Habits:
             
             # Checks whether the habit is archived. If it is, an error message is printed
             # and the method ends. This is to prevent editing archived habits.
-            if loaded_habit.get("archived", False):
+            if loaded_habit.get("archived"):
                 print("The habit \"" + self.habit_name + "\" is archived and cannot be edited. Please unarchive the habit first.")
                 return None
             
@@ -138,14 +135,15 @@ class Habits:
                     break
                 print("Invalid input. Please enter \"daily\" or \"weekly,\" or press Enter to keep the same data.")
 
-            # If the user inputted "yes," "y," "true," or "1," the input is stored as True and the value
+            # If the user inputted "yes" or "y," the input is stored as True and the value
             # isAccepted is changed to True.
             isAccepted = False
             confirmation = input("Are you sure you want to save your changes to the habit? This cannot be reversed (yes/no): ").strip().lower()
-            isAccepted = confirmation in ("yes", "y", "true", "1")
+            if ((confirmation == "yes") or (confirmation == "y")):
+                isAccepted = True
             
             # If isAccepted is True, the new data overwrites the pre-existing data in the JSON file.
-            if isAccepted:
+            if (isAccepted == True):
             
                 if new_name:
                     loaded_habit["name"] = new_name
@@ -175,6 +173,7 @@ class Habits:
         files in the directory. If the "name" property within a JSON file
         matches "habit_name," that file is deleted.
         """
+        
         # All files within the "Habits" directory are looped through.
         # Should the file be a JSON file, the path of the file is saved,
         # then opened. The JSON data is loaded and the "name" attribute is checked to see if
@@ -199,9 +198,9 @@ class Habits:
         """This method creates a set of predefined habits
         via JSON. Five predetermined habits are made with at least
         4 weeks of tracking data each. Once the habits are defined,
-        the method "create_habit_file(habit_data)" is called to
-        create the JSON files for each habit (if they do not already
-        exist).
+        the Habits class constructor is called with the "create_habit_file()"
+        method to create the JSON files for each habit
+        (if they do not already exist).
         """
 
         # Here, a predefined habit is created with the following attributes:
@@ -395,7 +394,7 @@ class Habits:
         """This method checks off a habit by loading the JSON file
         using the "load_habit_file()" method. If the file is found,
         the user is prompted to confirm whether they want to check-off
-        the habit. If the user accepts, the current date and time are
+        the habit. Should the user accept, the current date and time are
         fetched and then formatted to match the format within the JSON file
         (namely, ISO 8601) without any microseconds. The habit is then checked-off
         for today and the current formatted date and time is appended to the
@@ -409,7 +408,7 @@ class Habits:
             return None
 
         # Loads the habit file using the "load_habit_file()" method and checks whether the file
-        # was found. If not, an error message is printed from the "load_habit_file()" method
+        # was found. If no habit is found, an error message is printed from the "load_habit_file()" method
         # and this method ends.
         loaded_habit = self.load_habit_file()
         if (loaded_habit == False):
@@ -418,7 +417,7 @@ class Habits:
         else:
             
             # Checks whether the habit is archived. If it is, an error message is printed
-            # and the method ends. This is to prevent checking off archived habits.
+            # and the method ends. This is to prevent checking archived habits off.
             if loaded_habit.get("archived", False):
                 print("The habit \"" + self.habit_name + "\" is archived and cannot be checked-off. Please unarchive the habit first.")
                 return None
@@ -427,7 +426,8 @@ class Habits:
             # to check-off the habit for today.
             isCheckedOff = False 
             confirmation = input("Would you like to check-off the habit \"" + self.habit_name + "\" (yes/no)? ")
-            isCheckedOff = confirmation in ("yes", "y", "true", "1")
+            if ((confirmation == "yes") or (confirmation == "y")):
+                isCheckedOff = True
             
             # The current date and time are fetched and formatted to show the time within
             # the UTC timezone by setting it to "Z". The microseconds are removed and the
@@ -442,10 +442,10 @@ class Habits:
             # is set to True and the file is saved. The user is informed with a message
             # that the habit was successfully checked-off. If the habit was already
             # checked-off today, the user is informed accordingly and the method ends.
-            if isCheckedOff:
+            if (isCheckedOff == True):
 
                 loaded_habit["check_off_history"].append(json_datetime_format)
-                if loaded_habit["has_checked_off_today"] == False:
+                if (loaded_habit["has_checked_off_today"] == False):
                     loaded_habit["has_checked_off_today"] = True
 
                     with open(os.path.join("Habits", (self.habit_name.lower().replace(" ", "_") + ".json")), mode="w", encoding="utf-8") as write_file:
@@ -503,7 +503,7 @@ class Habits:
                         # compares the last check-off date to today via the "today_midnight" variable.
                         # If the last check-off date is before today, the "has_checked_off_today" attribute
                         # is set to "False" and the file is saved.
-                        if loaded_habit.get("periodicity", "").lower() == "daily":
+                        if loaded_habit.get("periodicity").lower() == "daily":
                             
                             if last_checkoff < today_midnight:
                                 loaded_habit["has_checked_off_today"] = False
@@ -526,7 +526,7 @@ class Habits:
     def archive_habit(self):
         """This method archives a habit by loading the JSON file
         using the "load_habit_file()" method. If the file is found,
-        the "archived" attribute within the JSON file is set to True and the file is saved.
+        the "archived" attribute within the JSON file is set to "true" and the file is saved.
         The user is informed that the habit was successfully archived. In the event that
         the habit is already archived, an error message is printed and the method ends.
         """
@@ -543,7 +543,7 @@ class Habits:
             return None
         
         # If the habit is already archived, an error message is printed and the method ends.
-        elif loaded_habit.get("archived") == True:
+        elif (loaded_habit.get("archived") == True):
             print("The habit \"" + self.habit_name + "\" is already archived. No changes were made.")
             return None
         
@@ -561,9 +561,9 @@ class Habits:
     def unarchive_habit(self):
         """This method unarchives a habit by loading the JSON file
         using the "load_habit_file()" method. If the file is found,
-        the "archived" attribute within the JSON file is set to False
+        the "archived" attribute within the JSON file is set to "false"
         and the file is saved. The user is informed that the habit was
-        successfully unarchived. In the event that the habit is not archived,
+        successfully unarchived. In the event that the habit is already unarchived,
         an error message is printed and the method ends.
         """
         
@@ -575,11 +575,11 @@ class Habits:
         # Loads the habit file using the "load_habit_file()" method and checks whether the file
         # was found. If not, an error message is printed and the method ends.
         loaded_habit = self.load_habit_file()
-        if loaded_habit == False:
+        if (loaded_habit == False):
             return None
         
         # If the habit is not archived, an error message is printed and the method ends.
-        elif loaded_habit.get("archived") == False:
+        elif (loaded_habit.get("archived") == False):
             print("The habit \"" + self.habit_name + "\" is not archived. No changes were made.")
             return None
         
