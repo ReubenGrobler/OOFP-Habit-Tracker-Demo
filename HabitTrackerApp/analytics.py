@@ -34,6 +34,8 @@ class Analytics(Habits):
                 path_of_file = os.path.join("Habits", file_in_folder)
                 with open(path_of_file, mode="r", encoding="utf-8") as read_file:
                     loaded_habit = json.load(read_file)
+                    if (loaded_habit.get("archived") == True):
+                        continue
                     print("- "+ loaded_habit.get("name", ""))
                     
     
@@ -44,8 +46,8 @@ class Analytics(Habits):
         the streak accordingly after the entire check-off history has loaded and converted
         from ISO format to a datetime object. A loop is then used to iterate through
         the converted check-off history, checking the difference in days between each
-        consecutive check-off. If the difference is 1 day (for daily habits) or 7 days
-        (for weekly habits), the streak counter is incremented.
+        consecutive check-off. If the difference is 1 day (for daily habits) or between
+        7 and 13 days (for weekly habits), the streak counter is incremented.
         
         Returns:
             longest_streak (int): The longest streak found for a given habit and its periodicity.
@@ -58,9 +60,14 @@ class Analytics(Habits):
         # Loads the habit data from the JSON file. This method is inherited from the Habits class.
         self.habit_data = self.load_habit_file()
 
-        # If no habit data was returned from the load_habit_file method, then end the method.
-        # Due to the method already including a message for archived habits, no message is outputted here.
+        # In the event that the habit cannot be found, the method terminates.
         if (self.habit_data == False):
+            return None
+
+        # Checks whether the habit is archived. If it is, an error message is printed
+        # and the method ends.
+        if (self.habit_data.get("archived") == True):
+            print("The habit \"" + self.habit_name + "\" is archived and cannot be viewed. Please unarchive the habit first.")
             return None
         
         # The check-off history and the periodicity of the habit are stored.
@@ -79,11 +86,12 @@ class Analytics(Habits):
         for i in range(1, len(converted_checkoffs)):
             difference_in_days = (converted_checkoffs[i].date() - converted_checkoffs[i - 1].date()).days
             
-            # If the difference between check-offs is 1 day (for daily habits) or 7 days (for weekly habits),
-            # the streak counter is incremented. Otherwise, the streak counter is reset to 1.
+            # If the difference between check-offs is 1 day (for daily habits) or between 7
+            # and 13 days (for weekly habits), the streak counter is incremented.
+            # Otherwise, the streak counter is reset to 1.
             if (checkoff_periodicity == "daily") and (difference_in_days == 1):
                 streak_counter += 1
-            elif (checkoff_periodicity == "weekly") and (difference_in_days <= 7):
+            elif (checkoff_periodicity == "weekly") and (7 <= difference_in_days <= 13):
                 streak_counter += 1
             else:
                 streak_counter = 1
@@ -107,11 +115,12 @@ class Analytics(Habits):
     
 
     def get_longest_streak_all_habits(self):
-        """This method calculates the longest streak of check-offs for all habits
+        """This method calculates the longest streak of check-offs out of all habits
         stored in the "Habits" folder. The method loops through each JSON file in the
-        folder, loading the habit data and calling the longest_streak_single_habit()
-        method for each habit. At the end, the called method outputs the longest streak
-        out of all habits checked.
+        folder, loading the habit data and calculating each habit's streak. At the end,
+        the streak is compared with the current longest streak stored and saved if it is
+        longer, alongside the habit name. Both the habit name and the streak length is outputted
+        at the end.
         
         Returns:
             longest_streak_all_habits(int) = The longest streak found amongst all currently stored habits.
@@ -135,11 +144,11 @@ class Analytics(Habits):
                 with open(path_of_file, mode="r", encoding="utf-8") as read_file:
                     loaded_habit = json.load(read_file)
 
-                    if (loaded_habit.get("archived", "") == True):
+                    if (loaded_habit.get("archived") == True):
                         continue
                                             
                     unconverted_checkoffs = loaded_habit.get("check_off_history", [])
-                    checkoff_periodicity = loaded_habit.get("periodicity", "")
+                    checkoff_periodicity = loaded_habit.get("periodicity")
 
                     # A loop runs to convert each entry in the check-off history from a string to a datetime object,
                     # then appends these new values into a new list.
@@ -158,11 +167,12 @@ class Analytics(Habits):
                     for i in range(1, len(converted_checkoffs)):
                         difference_in_days = (converted_checkoffs[i].date() - converted_checkoffs[i - 1].date()).days
                         
-                        # If the difference between check-offs is 1 day (for daily habits) or 7 days (for weekly habits),
-                        # the streak counter is incremented. Otherwise, the streak counter is reset to 1.
+                        # If the difference between check-offs is 1 day (for daily habits) or between 7
+                        # and 13 days (for weekly habits), the streak counter is incremented.
+                        # Otherwise, the streak counter is reset to 1.
                         if (checkoff_periodicity == "daily") and (difference_in_days == 1):
                             streak_counter += 1
-                        elif (checkoff_periodicity == "weekly") and (difference_in_days <= 7):
+                        elif (checkoff_periodicity == "weekly") and (7 <= difference_in_days <= 13):
                             streak_counter += 1
                         else:
                             streak_counter = 1
@@ -175,8 +185,8 @@ class Analytics(Habits):
                     # If the former is greater, the value is assigned to the latter and the name of that habit is stored.
                     if single_habit_max_streak > longest_streak_all_habits:
                         longest_streak_all_habits = single_habit_max_streak
-                        habit_with_longest_streak = loaded_habit.get("name", "")
-                        habit_periodicity = loaded_habit.get("periodicity" "")
+                        habit_with_longest_streak = loaded_habit.get("name")
+                        habit_periodicity = loaded_habit.get("periodicity")
 
         # The longest streak amongst all habits is outputted alongside the name of the habit. In the event that
         # there are no streaks found, the user is notified.
@@ -226,6 +236,9 @@ class Analytics(Habits):
                 with open(path_of_file, mode="r", encoding="utf-8") as read_file:
                     loaded_habit = json.load(read_file)
 
+                    if loaded_habit.get("archived"):
+                        continue
+
                     # The number of check-offs for the current habit is compared to the current
                     # holder of the habit with most values. If the current habit has more check-offs,
                     # the highest number of check-offs is updated and the habit name is stored.
@@ -243,8 +256,11 @@ class Analytics(Habits):
             print("The habit(s) with the most check-offs (" + str(most_checkoffs) + ") are:")
             for habit in habits_with_most_checkoffs:
                 print("- " + habit)
-                return habit
-        return None
+            return habit
+        
+        else:
+            print("No habits were found. Please create a new habit.")
+            return None
         
 
     def get_least_checkoff_history(self):
@@ -276,6 +292,9 @@ class Analytics(Habits):
                 with open(path_of_file, mode="r", encoding="utf-8") as read_file:
                     loaded_habit = json.load(read_file)
 
+                    if loaded_habit.get("archived"):
+                        continue
+
                     # The number of check-offs for the current habit is compared to the current
                     # holder of the habit with least values. If the current habit has less check-offs,
                     # the lowest number of check-offs is updated and the habit name is stored.
@@ -293,8 +312,11 @@ class Analytics(Habits):
             print("The habit(s) with the least check-offs (" + str(least_checkoffs) + ") are:")
             for habit in habits_with_least_checkoffs:
                 print("- " + habit)
-                return habit
-        return None
+            return habit
+        
+        else:
+            print("No habits were found. Please create a new habit.")
+            return None
 
     
     def get_habits_with_same_periodicity(self, wanted_periodicity: str = "daily"):
@@ -323,16 +345,20 @@ class Analytics(Habits):
                 path_of_file = os.path.join("Habits", file_in_folder)
                 with open(path_of_file, mode="r", encoding="utf-8") as read_file:
                     loaded_habit = json.load(read_file)
-                    periodicity = loaded_habit.get("periodicity", "")
+
+                    if (loaded_habit.get("archived") == True):
+                        continue
+                                            
+                    periodicity = loaded_habit.get("periodicity")
                     
                     if wanted_periodicity == periodicity:
-                        all_habits.append(loaded_habit.get("name", "")) 
+                        all_habits.append(loaded_habit.get("name")) 
 
         if all_habits:
             print("The following habits have the periodicity of \"" + wanted_periodicity + "\":")
             for habit in all_habits:
                 print("- " + habit)
-                return habit
+            return habit
                 
         else:
             print("No habits were found with that periodicity. Please create a new habit with that periodicity.")
@@ -354,6 +380,12 @@ class Analytics(Habits):
 
         # In the event that the habit cannot be found, the method terminates.
         if (self.habit_data == False):
+            return None
+
+        # Checks whether the habit is archived. If it is, an error message is printed
+        # and the method ends.
+        if (self.habit_data.get("archived") == True):
+            print("The habit \"" + self.habit_name + "\" is archived and cannot be viewed. Please unarchive the habit first.")
             return None
         
         # A loop is made that prompts the user for a start and end date, then checks if they are valid. If they are,
@@ -426,7 +458,7 @@ class Analytics(Habits):
                 path_of_file = os.path.join("Habits", file_in_folder)
                 with open(path_of_file, mode="r", encoding="utf-8") as read_file:
                     loaded_habit = json.load(read_file)
-                    if loaded_habit.get("archived", "") == True:
+                    if loaded_habit.get("archived") == True:
                         archived_habits.append(loaded_habit.get("name", ""))
         
         # A loop runs to print all archived habits from the saved list.
