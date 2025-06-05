@@ -149,9 +149,9 @@ def cli():
             # Prompts the user for confirmation before deleting the habit.
             # If the user confirms, the habit is deleted; otherwise, the deletion is cancelled.
             confirmation = questionary.confirm("Are you sure you want to delete the habit \"" + habit_name + "\"? This action cannot be undone.").ask()
-            if not confirmation:
+            if (confirmation == False):
                 print("\nHabit deletion cancelled.\n")
-                return None
+                continue
             
             # Creates an instance of the Habits class with the habit name, then calls the delete_habit method
             # to delete the habit. If the habit is deleted successfully, a success message is printed.
@@ -187,9 +187,9 @@ def cli():
                     # The user is prompted for confirmation before archiving the habit. If the user does not confirm,
                     # the archiving is cancelled and a message is printed.
                     confirmation = questionary.confirm("Are you sure you want to archive the habit \"" + habit_name + "\"?").ask()
-                    if not confirmation:
+                    if (confirmation == False):
                         print("\nThe habit was not archived. No changes were made.\n")
-                        return None
+                        continue
                     
                     # Creates an instance of the Habits class with the habit name, then calls the archive_habit method
                     # to archive the habit. If the habit is archived successfully, a success message is printed.
@@ -206,9 +206,9 @@ def cli():
                         continue
                     
                     confirmation = questionary.confirm("Are you sure you want to unarchive the habit \"" + habit_name + "\"?").ask()
-                    if not confirmation:
+                    if (confirmation == False):
                         print("\nThe habit was not unarchived. No changes were made.\n")
-                        return None
+                        continue
 
                     # Creates an instance of the Habits class with the habit name, then calls the unarchive_habit method
                     # to unarchive the habit. If the habit is unarchived successfully, a success message is printed.
@@ -302,7 +302,6 @@ def cli():
                     # "get_habits_with_same_periodicity" method originates. The function
                     # searches through all habits which has the same periodicity that the user
                     # specifies, then outputs them to the user.
-                    
                     habit_periodicity = (questionary.select("Which habit periodicity do you wish to search for?",
                                                            choices=["Daily", "Weekly", "Exit selection"]).ask()).lower()
                     
@@ -466,6 +465,10 @@ def cli():
             exited_program = True
         
 
+# This section runs on program startup. An instance of the
+# Habits class is made, predefined habits are created (if
+# they do not already exist), and all habits that have not
+# been checked-off within their periodicity are set to false.
 if __name__ == "__main__":
     bootup_habit_functions = Habits()
     bootup_habit_functions.create_predefined_habits()
