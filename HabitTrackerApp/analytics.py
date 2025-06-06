@@ -72,7 +72,7 @@ class Analytics(Habits):
         
         # The check-off history and the periodicity of the habit are stored.
         unconverted_checkoffs = self.habit_data.get("check_off_history", [])
-        checkoff_periodicity = self.habit_data.get("periodicity", "")
+        checkoff_periodicity = self.habit_data.get("periodicity")
         
         # A loop runs to convert each entry in the check-off history from a string to a datetime object,
         # then appends these new values into a new list.
