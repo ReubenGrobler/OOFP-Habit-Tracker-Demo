@@ -36,7 +36,7 @@ class Analytics(Habits):
                     loaded_habit = json.load(read_file)
                     if (loaded_habit.get("archived") == True):
                         continue
-                    print("- "+ loaded_habit.get("name", ""))
+                    print("- "+ loaded_habit.get("name"))
                     
     
     def get_longest_streak_single_habit(self):
@@ -244,12 +244,12 @@ class Analytics(Habits):
                     # the highest number of check-offs is updated and the habit name is stored.
                     if len(loaded_habit.get("check_off_history", [])) > most_checkoffs:
                         most_checkoffs = len(loaded_habit.get("check_off_history", []))
-                        habits_with_most_checkoffs = [loaded_habit.get("name", "")]
+                        habits_with_most_checkoffs = [loaded_habit.get("name")]
                         
                     # If the current habit has the same number of check-offs as the maximum,
                     # the habit name is added to the list of habits with the most check-offs.
                     elif len(loaded_habit.get("check_off_history", [])) == most_checkoffs:
-                        habits_with_most_checkoffs.append(loaded_habit.get("name", ""))
+                        habits_with_most_checkoffs.append(loaded_habit.get("name"))
         
         # A loop runs to print the habit(s) with the most check-offs.
         if habits_with_most_checkoffs:
@@ -300,12 +300,12 @@ class Analytics(Habits):
                     # the lowest number of check-offs is updated and the habit name is stored.
                     if len(loaded_habit.get("check_off_history", [])) < least_checkoffs:
                         least_checkoffs = len(loaded_habit.get("check_off_history", []))
-                        habits_with_least_checkoffs = [loaded_habit.get("name", "")]
+                        habits_with_least_checkoffs = [loaded_habit.get("name")]
                         
                     # If the current habit has the same number of check-offs as the minimum,
                     # the habit name is added to the list of habits with the least check-offs.
                     elif len(loaded_habit.get("check_off_history", [])) == least_checkoffs:
-                        habits_with_least_checkoffs.append(loaded_habit.get("name", ""))
+                        habits_with_least_checkoffs.append(loaded_habit.get("name"))
         
         # A loop runs to print the habit(s) with the least check-offs.
         if habits_with_least_checkoffs:
