@@ -393,7 +393,7 @@ class Analytics(Habits):
         # is then exited. If the dates are not valid, a ValueError is raised and the user is informed
         # that they have entered an incorrect date format. The loop continues until valid dates are entered.
 
-           while True:
+        while True:
             start_date = input("Enter start date (YYYY-MM-DD): ")
             
             try:
