@@ -193,11 +193,11 @@ class Analytics(Habits):
         if longest_streak_all_habits > 1:
             
             if habit_periodicity == "daily":
-                print("The longest streak across all habits is made by \"" + habit_with_longest_streak + "\" with " + str(longest_streak_all_habits) + " days.")
+                print("The longest streak across all habits is made by \"" + habit_with_longest_streak + "\" with " + str(longest_streak_all_habits) + " days.\n")
                 return longest_streak_all_habits
                 
             elif habit_periodicity == "weekly":
-                print("The longest streak across all habits is made by \"" + habit_with_longest_streak + "\" with " + str(longest_streak_all_habits) + " weeks.")
+                print("The longest streak across all habits is made by \"" + habit_with_longest_streak + "\" with " + str(longest_streak_all_habits) + " weeks.\n")
                 return longest_streak_all_habits
                 
             else:
