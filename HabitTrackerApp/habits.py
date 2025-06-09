@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from datetime import datetime, timezone, date, time, timedelta
 
 
@@ -26,8 +27,10 @@ class Habits:
         """
 
         # Sanitises the habit name to create a valid filename by replacing any spaces with underscores
-        # and converting the name to lowercase
+        # and converting the name to lowercase.
+        # Any invalid characters for a file name are additionallly removed implicitly.
         cleaned_name = self.habit_data["name"].lower().replace(" ", "_")
+        cleaned_name = re.sub(r'[<>:"/\\|?*]', " ", cleaned_name)
         
         # Creates the "Habits" directory if it doesn't exist
         # and sets the cleansed habit name to be saved in that directory
