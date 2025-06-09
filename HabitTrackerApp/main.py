@@ -117,7 +117,7 @@ def cli():
                 print("\nThe habit \"" + habit_name + "\" was found!\n\n"+ json.dumps(habit_data, indent=4))
                 print("\n")
             else:
-                return None
+                continue
         
         
         elif choice == "Edit a habit":
