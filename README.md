@@ -46,10 +46,10 @@ Once this has all be done, you are ready to run the program!
 3. Type in the following:
 
 ```py
-python main.py
+py main.py
 ```
 
-4. Assuming your path looks something like `C:\Users\JohnDoe\HabitTrackingApp> python main.py`, press Enter.
+4. Assuming your path looks something like `C:\Users\JohnDoe\HabitTrackingApp> py main.py`, press Enter.
 
 The application should now start and prompt you with various selections!
 
@@ -60,7 +60,7 @@ Within the program, there is a **Help** section entirely dedicated to explaining
 ## How to Test the Application
 
 To run a simple test on the application via Pytest, follow the run instructions up until step 3.
-- Instead of entering ```python main.py```, enter ```pytest . -s```. Press Enter.
+- Instead of entering ```py main.py```, enter ```py -m pytest . -s```. Press Enter.
 - You will be prompted with a few inputs as the test goes on, namely:
     - The test to replace habit data with custom values
     - A test to check-off a test habit specifically created for this test
