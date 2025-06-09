@@ -13,13 +13,13 @@ If necessary, a guide to install Pip can be found [here](https://pip.pypa.io/en/
 - First, install the latest version of the Questionary library (any version not older than 2.1.0 should work). This can be done by opening your terminal/command line and typing in the following:
 
 ```py
-pip install questionary
+py -m pip install questionary
 ```
 
 - Afterwards, make sure to install the latest version of Pytest as well (any version not older than 8.3.5 should work). This can be done in a similar manner to installing Questionary by opening up your terminal/command line and typing in:
 
 ```py
-pip install -U pytest
+py -m pip install -U pytest
 ```
 
 **NOTE:** Although installing Questionary isn't strictly necessary due to it being included with the application, installing the library yourself prevents any issues from possibly occurring. As such, it is highly recommended to install Questionary yourself via these instructions.
@@ -27,7 +27,7 @@ pip install -U pytest
 - Once you have installed these dependencies, type in the following to verify your installation within your terminal/command line:
 
 ```py
-pip list
+py -m pip list
 ```
 
 - You should see *Questionary* and *Pytest* amongst your list. If you do, congratulations! You have installed everything correctly.
